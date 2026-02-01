@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-const bouquetSchema = new Schema(
+const flowerSchema = new Schema(
   {
     name: {
       type: String,
@@ -34,7 +34,10 @@ const bouquetSchema = new Schema(
       },
     ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 
-export default model('Bouquet', bouquetSchema);
+export const FlowerCollection = model('Flower', flowerSchema);
