@@ -15,9 +15,7 @@ export const getFlowerByIdController = async (req, res, next) => {
   const flower = await getFlowerById(flowerId);
 
   if (!flower) {
-    res.status(404).json({
-      message: 'Flower not found',
-    });
+    next(new Error('Flower not found'));
     return;
   }
 
