@@ -1,6 +1,6 @@
 import { FlowerCollection } from '../db/models/flower.js';
 
-export const getAllFlowers = async () => {
+export const getCatalog = async () => {
   const flowers = await FlowerCollection.find();
   return flowers;
 };
