@@ -1,5 +1,9 @@
 import createHttpError from 'http-errors';
-import { getCatalog, getFlowerById } from './flowersService.js';
+import {
+  deleteFlowerService,
+  getCatalog,
+  getFlowerById,
+} from './flowersService.js';
 
 export const getCatalogController = async (req, res) => {
   const flowers = await getCatalog();
@@ -24,4 +28,16 @@ export const getFlowerByIdController = async (req, res, next) => {
     message: `Successfully found flower with id ${flowerId}`,
     data: flower,
   });
+};
+
+export const deleteFlowerController = async (req, res, next) => {
+  const { flowerId } = req.params;
+  const flower = await deleteFlowerService(flowerId);
+
+  if (!flower) {
+    next(createHttpError(404, 'Flower not found'));
+    return;
+  }
+
+  res.status(204).send();
 };

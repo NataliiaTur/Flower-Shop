@@ -9,3 +9,10 @@ export const getFlowerById = async (flowerId) => {
   const flower = await FlowerCollection.findById(flowerId);
   return flower;
 };
+
+export const deleteFlowerService = async (flowerId) => {
+  const flower = await FlowerCollection.findOneAndDelete({
+    _id: flowerId,
+  });
+  return flower;
+};
