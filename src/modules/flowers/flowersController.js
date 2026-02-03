@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { getCatalog, getFlowerById } from '../services/flowers.js';
+import { getCatalog, getFlowerById } from './flowersService.js';
 
 export const getCatalogController = async (req, res) => {
   const flowers = await getCatalog();

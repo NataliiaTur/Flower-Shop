@@ -2,8 +2,8 @@ import { Router } from 'express';
 import {
   getCatalogController,
   getFlowerByIdController,
-} from '../controllers/flowers.js';
-import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+} from './flowersController.js';
+import { ctrlWrapper } from '../../utils/ctrlWrapper.js';
 
 const router = Router();
 

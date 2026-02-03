@@ -1,7 +1,7 @@
 import express from 'express';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { loggerPino } from './middlewares/loggerPino.js';
-import flowersRouter from './routers/flowers.js';
+import flowersRouter from './modules/flowers/flowersRoutes.js';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './middlewares/errorHandler.js';
