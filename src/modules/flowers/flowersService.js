@@ -16,3 +16,8 @@ export const deleteFlowerService = async (flowerId) => {
   });
   return flower;
 };
+
+export const postFlowerService = async (payload) => {
+  const flower = await FlowerCollection.create(payload);
+  return flower;
+};

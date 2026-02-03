@@ -3,6 +3,7 @@ import {
   deleteFlowerService,
   getCatalog,
   getFlowerById,
+  postFlowerService,
 } from './flowersService.js';
 
 export const getCatalogController = async (req, res) => {
@@ -40,4 +41,14 @@ export const deleteFlowerController = async (req, res, next) => {
   }
 
   res.status(204).send();
+};
+
+export const postFlowerController = async (req, res) => {
+  const flower = await postFlowerService(req.body);
+
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully created a flower!',
+    data: flower,
+  });
 };
