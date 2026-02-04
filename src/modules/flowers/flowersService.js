@@ -21,3 +21,23 @@ export const postFlowerService = async (payload) => {
   const flower = await FlowerCollection.create(payload);
   return flower;
 };
+
+// часткове оновлення окремих даних
+export const patchFlowerService = async (flowerId, payload, options = {}) => {
+  const rawResult = await FlowerCollection.findOneAndUpdate(
+    { _id: flowerId },
+    { $set: payload },
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
+
+  if (!rawResult || !rawResult.value) return null;
+
+  return {
+    flower: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
+};

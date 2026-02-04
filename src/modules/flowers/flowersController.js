@@ -3,6 +3,7 @@ import {
   deleteFlowerService,
   getCatalog,
   getFlowerById,
+  patchFlowerService,
   postFlowerService,
 } from './flowersService.js';
 
@@ -40,7 +41,10 @@ export const deleteFlowerController = async (req, res, next) => {
     return;
   }
 
-  res.status(204).send();
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully deleted a flower!',
+  });
 };
 
 export const postFlowerController = async (req, res) => {
@@ -48,7 +52,23 @@ export const postFlowerController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully created a flower!',
+    message: `Successfully created a flower!`,
     data: flower,
+  });
+};
+
+// апдейт окремих полів
+export const patchFlowerController = async (req, res, next) => {
+  const { flowerId } = req.params;
+  const result = await patchFlowerService(flowerId, req.body);
+
+  if (!result) {
+    next(createHttpError(404, 'Flower not found'));
+  }
+
+  res.json({
+    status: 200,
+    message: 'Successfully updated a flower!',
+    data: result.flower,
   });
 };
