@@ -43,3 +43,49 @@ export const createFlowerSchema = Joi.object({
     )
     .optional(),
 });
+
+export const updateFlowerSchema = Joi.object({
+  name: Joi.string().trim().optional().messages({
+    'string.base': 'Name must be a string',
+  }),
+
+  composition: Joi.array()
+    .items(
+      Joi.object({
+        flower: Joi.string(),
+        quantity: Joi.number().integer().min(1),
+      }),
+    )
+    .optional(),
+
+  price: Joi.number().positive().optional().messages({
+    'number.base': 'Price must be a number',
+    'number.positive': 'Price must be positive',
+  }),
+
+  rating: Joi.number().min(0).max(5).optional().messages({
+    'number.min': 'Rating must be at least 0',
+    'number.max': 'Rating must be at most 5',
+  }),
+
+  colors: Joi.array().items(Joi.string()).optional(),
+
+  description: Joi.string().optional(),
+
+  images: Joi.array()
+    .items(
+      Joi.object({
+        url: Joi.string().uri().messages({
+          'string.uri': 'Image URL must be a valid URI',
+          'any.required': 'Image URL is required',
+        }),
+        alt: Joi.string().optional(),
+        isMain: Joi.boolean().optional(),
+      }),
+    )
+    .optional(),
+})
+  .min(1)
+  .messages({
+    'object.min': 'At least one field must be provided for update',
+  });
