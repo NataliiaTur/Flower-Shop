@@ -9,11 +9,16 @@ import {
 import { ctrlWrapper } from '../../utils/ctrlWrapper.js';
 import { validateBody } from '../../middlewares/validateBody.js';
 import { createFlowerSchema, updateFlowerSchema } from './flowerValidation.js';
+import { isValidId } from '../../middlewares/isValidId.js';
 
 const router = Router();
 
 router.get('/catalog', ctrlWrapper(getCatalogController));
-router.get('/catalog/:flowerId', ctrlWrapper(getFlowerByIdController));
+router.get(
+  '/catalog/:flowerId',
+  isValidId,
+  ctrlWrapper(getFlowerByIdController),
+);
 router.delete('/catalog/:flowerId', ctrlWrapper(deleteFlowerController));
 router.post(
   '/catalog',
