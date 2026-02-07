@@ -6,7 +6,6 @@ import {
   patchFlowerService,
   postFlowerService,
 } from './flowersService.js';
-import { createFlowerSchema } from './flowerValidation.js';
 
 export const getCatalogController = async (req, res) => {
   const flowers = await getCatalog();
@@ -49,17 +48,6 @@ export const deleteFlowerController = async (req, res, next) => {
 };
 
 export const postFlowerController = async (req, res) => {
-  const { error, value } = createFlowerSchema.validate(req.body, {
-    abortEarly: false,
-  });
-  if (error) {
-    return res.status(400).json({
-      status: 400,
-      message: 'Validation error',
-      errors: error.details.map((err) => err.message),
-    });
-  }
-
   const flower = await postFlowerService(req.body);
 
   res.status(201).json({
