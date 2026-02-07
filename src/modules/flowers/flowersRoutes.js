@@ -8,7 +8,7 @@ import {
 } from './flowersController.js';
 import { ctrlWrapper } from '../../utils/ctrlWrapper.js';
 import { validateBody } from '../../middlewares/validateBody.js';
-import { createFlowerSchema } from './flowerValidation.js';
+import { createFlowerSchema, updateFlowerSchema } from './flowerValidation.js';
 
 const router = Router();
 
@@ -20,6 +20,10 @@ router.post(
   validateBody(createFlowerSchema),
   ctrlWrapper(postFlowerController),
 );
-router.patch('/catalog/:flowerId', ctrlWrapper(patchFlowerController));
+router.patch(
+  '/catalog/:flowerId',
+  validateBody(updateFlowerSchema),
+  ctrlWrapper(patchFlowerController),
+);
 
 export default router;
