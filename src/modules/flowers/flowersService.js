@@ -1,8 +1,22 @@
+import { calculatePaginationData } from '../../utils/calculatePaginationData.js';
 import { FlowerCollection } from './flowerModel.js';
 
-export const getCatalog = async () => {
-  const flowers = await FlowerCollection.find();
-  return flowers;
+export const getCatalog = async ({ page, perPage }) => {
+  const limit = perPage;
+  const skip = (page - 1) * perPage;
+
+  const flowersQuery = await FlowerCollection.find();
+  const flowersCount = await FlowerCollection.find()
+    .merge(flowersQuery)
+    .countDocuments();
+  const flowers = await flowersQuery.skip(skip).limit(limit).exec();
+
+  const paginationData = calculatePaginationData(flowersCount, perPage, page);
+
+  return {
+    data: flowers,
+    ...paginationData,
+  };
 };
 
 export const getFlowerById = async (flowerId) => {
