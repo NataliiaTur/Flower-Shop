@@ -6,9 +6,15 @@ import {
   patchFlowerService,
   postFlowerService,
 } from './flowersService.js';
+import { parsePaginationParams } from '../../utils/parsePaginationParams.js';
 
 export const getCatalogController = async (req, res) => {
-  const flowers = await getCatalog();
+  const { page, perPage } = parsePaginationParams(req.query);
+
+  const flowers = await getCatalog({
+    page,
+    perPage,
+  });
 
   res.json({
     status: 200,
