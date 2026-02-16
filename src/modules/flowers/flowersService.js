@@ -7,19 +7,42 @@ export const getCatalog = async ({
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
+  filter = {},
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const flowersQuery = FlowerCollection.find();
-  const flowersCount = await FlowerCollection.find()
-    .merge(flowersQuery)
-    .countDocuments();
-  const flowers = await flowersQuery
-    .skip(skip)
-    .limit(limit)
-    .sort({ [sortBy]: sortOrder })
-    .exec();
+  const filterQuery = {};
+
+  if (filter.colors?.length) {
+    filterQuery.colors = { $in: filter.colors };
+  }
+
+  if (filter.minPrice !== undefined) {
+    filterQuery.price = { ...filterQuery.price, $gte: filter.minPrice };
+  }
+
+  if (filter.maxPrice !== undefined) {
+    filterQuery.price = { ...filterQuery.price, $lte: filter.maxPrice };
+  }
+
+  if (filter.minRating !== undefined) {
+    filterQuery.rating = { ...filterQuery.rating, $gte: filter.minRating };
+  }
+
+  if (filter.maxRating !== undefined) {
+    filterQuery.rating = { ...filterQuery.rating, $lte: filter.maxRating };
+  }
+
+  const [flowersCount, flowers] = await Promise.all([
+    FlowerCollection.countDocuments(filterQuery),
+    FlowerCollection.find(filterQuery)
+      .skip(skip)
+      .limit(limit)
+      .sort({ [sortBy]: sortOrder })
+      .lean()
+      .exec(),
+  ]);
 
   const paginationData = calculatePaginationData(flowersCount, perPage, page);
 

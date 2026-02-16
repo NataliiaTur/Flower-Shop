@@ -8,16 +8,19 @@ import {
 } from './flowersService.js';
 import { parsePaginationParams } from '../../utils/parsePaginationParams.js';
 import { parseSortParams } from '../../utils/parseSortParams.js';
+import { parseFilterParams } from '../../utils/parseFilterParams.js';
 
 export const getCatalogController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
+  const filter = parseFilterParams(req.query);
 
   const flowers = await getCatalog({
     page,
     perPage,
     sortBy,
     sortOrder,
+    filter,
   });
 
   res.json({

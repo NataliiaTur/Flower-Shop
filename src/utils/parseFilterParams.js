@@ -34,14 +34,11 @@ const parseColors = (colors) => {
 };
 
 const parseNumber = (number) => {
-  const isString = typeof number === 'string';
-
-  if (!isString) return;
+  if (typeof number !== 'string') return;
 
   const parsedNumber = parseFloat(number);
-  if (number.isNaN(parsedNumber)) {
-    return;
-  }
+
+  if (Number.isNaN(parsedNumber)) return;
 
   return parsedNumber;
 };
