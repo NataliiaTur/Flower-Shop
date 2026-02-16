@@ -1,7 +1,13 @@
 import { calculatePaginationData } from '../../utils/calculatePaginationData.js';
 import { FlowerCollection } from './flowerModel.js';
+import { SORT_ORDER } from '../../constants/index.js';
 
-export const getCatalog = async ({ page, perPage }) => {
+export const getCatalog = async ({
+  page = 1,
+  perPage = 10,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+}) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
@@ -9,7 +15,11 @@ export const getCatalog = async ({ page, perPage }) => {
   const flowersCount = await FlowerCollection.find()
     .merge(flowersQuery)
     .countDocuments();
-  const flowers = await flowersQuery.skip(skip).limit(limit).exec();
+  const flowers = await flowersQuery
+    .skip(skip)
+    .limit(limit)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
 
   const paginationData = calculatePaginationData(flowersCount, perPage, page);
 
