@@ -5,7 +5,7 @@ export const getCatalog = async ({ page, perPage }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const flowersQuery = await FlowerCollection.find();
+  const flowersQuery = FlowerCollection.find();
   const flowersCount = await FlowerCollection.find()
     .merge(flowersQuery)
     .countDocuments();
