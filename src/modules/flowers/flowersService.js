@@ -18,21 +18,17 @@ export const getCatalog = async ({
     filterQuery.colors = { $in: filter.colors };
   }
 
-  if (filter.minPrice !== undefined) {
-    filterQuery.price = { ...filterQuery.price, $gte: filter.minPrice };
-  }
+  // price фільтр
+  const priceFilter = {};
+  if (filter.minPrice !== undefined) priceFilter.$gte = filter.minPrice;
+  if (filter.maxPrice !== undefined) priceFilter.$lte = filter.maxPrice;
+  if (Object.keys(priceFilter).length > 0) filterQuery.price = priceFilter;
 
-  if (filter.maxPrice !== undefined) {
-    filterQuery.price = { ...filterQuery.price, $lte: filter.maxPrice };
-  }
-
-  if (filter.minRating !== undefined) {
-    filterQuery.rating = { ...filterQuery.rating, $gte: filter.minRating };
-  }
-
-  if (filter.maxRating !== undefined) {
-    filterQuery.rating = { ...filterQuery.rating, $lte: filter.maxRating };
-  }
+  // rating фільтр
+  const ratingFilter = {};
+  if (filter.minRating !== undefined) ratingFilter.$gte = filter.minRating;
+  if (filter.maxRating !== undefined) ratingFilter.$lte = filter.maxRating;
+  if (Object.keys(ratingFilter).length > 0) filterQuery.rating = ratingFilter;
 
   const [flowersCount, flowers] = await Promise.all([
     FlowerCollection.countDocuments(filterQuery),
