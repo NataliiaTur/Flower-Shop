@@ -1,5 +1,5 @@
 import { UsersCollection } from './userModel.js';
 
-export const registerUSer = async (payload) => {
+export const registerUser = async (payload) => {
   return await UsersCollection.create(payload);
 };
