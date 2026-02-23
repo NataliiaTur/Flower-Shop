@@ -13,7 +13,7 @@ import { isValidId } from '../../middlewares/isValidId.js';
 
 const router = Router();
 
-router.get('/catalog', ctrlWrapper(getCatalogController));
+router.get('/', ctrlWrapper(getCatalogController));
 router.get(
   '/catalog/:flowerId',
   isValidId,

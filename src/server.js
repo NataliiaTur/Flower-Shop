@@ -1,7 +1,7 @@
 import express from 'express';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { loggerPino } from './middlewares/loggerPino.js';
-import flowersRouter from './modules/flowers/flowersRoutes.js';
+import router from './routers/index.js';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -15,7 +15,7 @@ export const startServer = () => {
 
   app.use(loggerPino);
 
-  app.use(flowersRouter);
+  app.use(router);
 
   app.use((req, res, next) => {
     console.log(`Time: ${new Date().toLocaleString()}`);
