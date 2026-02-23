@@ -6,7 +6,10 @@ import { registerUserSchema } from './userValidation.js';
 
 const router = Router();
 
-(router.post('/register', validateBody(registerUserSchema)),
-  ctrlWrapper(registerUserController));
+router.post(
+  '/register',
+  validateBody(registerUserSchema),
+  ctrlWrapper(registerUserController),
+);
 
 export default router;
